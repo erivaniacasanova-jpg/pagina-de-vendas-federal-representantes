@@ -2,12 +2,10 @@ import React, { useState, useRef } from 'react';
 import { CheckCircle2, X } from 'lucide-react';
 import { WhatsAppButton } from './WhatsAppButton';
 import { VideoTestimonialsCarousel } from './VideoTestimonialsCarousel';
-import { Representante, REPRESENTANTE_PADRAO } from '../representantes';
 
 interface EntrancePopupProps {
   isVisible: boolean;
-  onAccept?: (name: string) => void;
-  representante?: Representante;
+  onAccept: (name: string) => void;
 }
 
 interface DraggablePhotoRowProps {
@@ -83,25 +81,13 @@ const DraggablePhotoRow: React.FC<DraggablePhotoRowProps> = ({
   );
 };
 
-export const EntrancePopup: React.FC<EntrancePopupProps> = ({ 
-  isVisible, 
-  representante = REPRESENTANTE_PADRAO 
-}) => {
+/**
+ * EntrancePopup Component
+ * Version 5.6.0 - Added todobrasil.jpeg and "Após se cadastrar" caption.
+ */
+export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
-
-  // Pega o link de cadastro do representante atual
-  const getCadastroLink = () => {
-    let url = representante.linkCadastro || REPRESENTANTE_PADRAO.linkCadastro;
-
-    // Preserva parâmetros UTM caso existam na URL
-    if (typeof window !== 'undefined' && window.location.search) {
-      const search = window.location.search;
-      url += url.includes('?') ? `&${search.slice(1)}` : search;
-    }
-
-    return url;
-  };
 
   const TESTIMONIAL_PHOTOS = [
     "https://res.cloudinary.com/dls9nwecf/image/upload/v1764148119/ft3_izcncc.jpg",
@@ -142,6 +128,8 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
       ref={scrollRef} 
       className="w-full bg-[#060713] text-slate-100 min-h-screen relative"
     >
+      
+      {/* BARRA DE ANÚNCIO FIXA NO TOPO - 100% ESTÁTICA E LEVE */}
       <div 
         id="announcement-bar"
         className="sticky top-0 z-40 w-full bg-[#b91c1c] text-white py-2.5 px-4 text-center font-bold text-sm sm:text-base tracking-wide flex items-center justify-center gap-2 shadow-md"
@@ -150,10 +138,13 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
       </div>
 
       <div className="w-full">
+
+        {/* SEÇÃO PRINCIPAL - Imagem do Título R2 */}
         <div className="w-full pb-0">
           <div className="w-full pt-8 md:pt-12 pb-2 px-6">
             <div className="max-w-4xl mx-auto text-center">
               
+              {/* IMAGEM DO TÍTULO PRINCIPAL (Cloudflare R2) - Prioridade Máxima */}
               <div className="mb-6">
                 <img 
                   src="https://videos.suanetturbinada.com.br/federal.jpeg" 
@@ -168,6 +159,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                 />
               </div>
 
+              {/* CARDS DE BENEFÍCIOS */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 pb-6 max-w-3xl mx-auto">
                 {[
                   "Cadastro sem consulta ao SPC/SERASA",
@@ -188,6 +180,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                 ))}
               </div>
 
+              {/* E O MELHOR + IMAGEM FEDERALAPPS.JPG (Abaixo da primeira dobra: lazy + async) */}
               <div className="max-w-3xl mx-auto text-center space-y-4 pt-2 pb-6">
                 <p className="text-xl md:text-2xl text-white font-black leading-snug tracking-wide uppercase">
                   E o melhor
@@ -205,11 +198,13 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                 </div>
               </div>
 
+              {/* BLOCO: TEXTO E BOTÃO ESTÁTICO COM A IMAGEM FEDERALCELULAR.JPEG */}
               <div className="pt-2 pb-1 max-w-2xl mx-auto text-center space-y-6">
                 <p className="text-lg md:text-2xl text-white font-black leading-snug tracking-tight">
                   Mais economia, mais internet, mais liberdade para você.
                 </p>
 
+                {/* IMAGEM FEDERALCELULAR.JPEG */}
                 <div className="flex justify-center pt-2 pb-2">
                   <img 
                     src="https://videos.suanetturbinada.com.br/federalcelular.jpeg" 
@@ -222,19 +217,17 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                   />
                 </div>
                 
-                {/* BOTÃO HERO CTA - APONTA PARA O LINK DE CADASTRO */}
                 <div className="pt-2 pb-0">
                   <a 
-                    href={getCadastroLink()}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="https://associarse.com.br"
                     id="btn-hero-cta-blue"
-                    className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 px-8 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-3 tracking-wider mx-auto uppercase hover:opacity-95 transition-all cursor-pointer block text-center"
+                    className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 px-8 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-3 tracking-wider mx-auto uppercase hover:opacity-95"
                   >
                     QUERO MEU PLANO
                   </a>
                 </div>
 
+                {/* IMAGEM ABAIXO DE QUERO MEU PLANO: FEDERAL111.JPG (lazy + async) */}
                 <div className="flex justify-center pt-4 pb-2">
                   <img 
                     src="https://videos.suanetturbinada.com.br/federal111.jpg" 
@@ -252,6 +245,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
           </div>
         </div>
 
+        {/* SEÇÃO CONHEÇA A FEDERAL ASSOCIADOS (TEXTO E CREDIBILIDADE) */}
         <div className="w-full pb-10">
           <div className="w-full pt-4 pb-8 px-6">
             <div className="max-w-4xl mx-auto">
@@ -265,6 +259,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                     Por que confiar na Federal Associados?
                   </p>
 
+                  {/* CARDS DE CREDIBILIDADE */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 pb-2 max-w-2xl mx-auto text-slate-100 font-bold">
                     <div className="bg-[#0d0f22] border border-purple-500/25 rounded-2xl p-4 shadow-sm flex items-center justify-center text-center">
                       +14 anos de atuação
@@ -283,107 +278,131 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="w-full max-w-4xl mx-auto mb-4 space-y-6 pt-6">
-               <div className="text-center px-4 space-y-6">
+          {/* SEÇÃO CHIPS / OPERADORAS (federal3.jpg, todobrasil.jpeg, Após se cadastrar e federalchips.jpg) */}
+          <div className="w-full max-w-4xl mx-auto mb-4 space-y-6 pt-6">
+             <div className="text-center px-4 space-y-6">
+                
+                {/* federal3.jpg (lazy + async) */}
+                <div className="flex justify-center py-2">
+                  <img 
+                    src="https://videos.suanetturbinada.com.br/federal3.jpg" 
+                    alt="Cobertura Operadoras" 
+                    className="w-full max-w-2xl h-auto object-contain rounded-2xl border border-blue-500/20"
+                    loading="lazy"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+
+                <div className="space-y-4 text-center max-w-3xl mx-auto">
+                  <p className="text-base md:text-xl text-slate-200 font-semibold leading-relaxed">
+                    Ao se tornar um de nossos associados, você terá acesso à mesma cobertura das operadoras, porém terá acesso a um plano com condições muito mais vantajosas, pois o plano que você irá escolher será vinculado diretamente em nosso CNPJ.
+                  </p>
+                  <p className="text-lg md:text-2xl text-white font-bold leading-relaxed">
+                    Escolha seu plano hoje mesmo e conecte-se a uma internet turbinada de verdade.
+                  </p>
                   
-                  <div className="flex justify-center py-2">
+                  {/* IMAGEM TODOBRASIL.JPEG (lazy + async) */}
+                  <div className="flex justify-center pt-4">
                     <img 
-                      src="https://videos.suanetturbinada.com.br/federal3.jpg" 
-                      alt="Cobertura Operadoras" 
-                      className="w-full max-w-2xl h-auto object-contain rounded-2xl border border-blue-500/20"
+                      src="https://videos.suanetturbinada.com.br/todobrasil.jpeg" 
+                      alt="Todo o Brasil" 
+                      style={{ width: '100%', maxWidth: '700px', height: 'auto', display: 'block', margin: '0 auto' }} 
                       loading="lazy"
                       decoding="async"
                       referrerPolicy="no-referrer"
+                      className="rounded-2xl border border-indigo-500/30"
                     />
                   </div>
 
-                  <div className="space-y-4 text-center max-w-3xl mx-auto">
-                    <p className="text-base md:text-xl text-slate-200 font-semibold leading-relaxed">
-                      Ao se tornar um de nossos associados, você terá acesso à mesma cobertura das operadoras, porém terá acesso a um plano com condições muito mais vantajosas, pois o plano que você irá escolher será vinculado diretamente em nosso CNPJ.
-                    </p>
-                    <p className="text-lg md:text-2xl text-white font-bold leading-relaxed">
-                      Escolha seu plano hoje mesmo e conecte-se a uma internet turbinada de verdade.
-                    </p>
-                    
-                    <div className="flex justify-center pt-4">
-                      <img 
-                        src="https://videos.suanetturbinada.com.br/federalchips.jpg" 
-                        alt="Ativação através de Chip físico ou eSIM" 
-                        style={{ width: '100%', maxWidth: '700px', height: 'auto', display: 'block', margin: '0 auto' }} 
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
-                        className="rounded-2xl border border-indigo-500/30"
-                      />
-                    </div>
+                  {/* LEGENDA: Após se cadastrar */}
+                  <p className="text-lg md:text-2xl text-white font-bold leading-relaxed pt-2">
+                    Após se cadastrar
+                  </p>
+
+                  {/* IMAGEM FEDERALCHIPS.JPG (lazy + async) */}
+                  <div className="flex justify-center pt-2">
+                    <img 
+                      src="https://videos.suanetturbinada.com.br/federalchips.jpg" 
+                      alt="Ativação através de Chip físico ou eSIM" 
+                      style={{ width: '100%', maxWidth: '700px', height: 'auto', display: 'block', margin: '0 auto' }} 
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                      className="rounded-2xl border border-indigo-500/30"
+                    />
                   </div>
-               </div>
-            </div>
-          </div>
-
-          <div className="w-full bg-[#050611] border-y border-purple-900/30 py-10 px-0 relative">
-             <div className="w-full space-y-8">
-                 
-                 <div className="w-full">
-                    <div className="max-w-4xl mx-auto px-4 mb-3">
-                      <p className="text-sm md:text-base font-bold text-purple-300">
-                        Resultados e conversas reais no WhatsApp:
-                      </p>
-                    </div>
-                    <DraggablePhotoRow
-                      id="chats-carousel"
-                      items={chatItems}
-                      borderColorClass="border-purple-500/40 hover:border-purple-400"
-                      objectFitClass="object-contain"
-                    />
-                 </div>
-
-                 <div className="w-full">
-                    <div className="max-w-4xl mx-auto px-4 mb-3">
-                      <p className="text-sm md:text-base font-bold text-indigo-300">
-                        Nossos associados por todo o Brasil:
-                      </p>
-                    </div>
-                    <DraggablePhotoRow
-                      id="photos-carousel"
-                      items={photoItems}
-                      borderColorClass="border-indigo-500/40 hover:border-indigo-400"
-                      objectFitClass="object-cover"
-                    />
-                 </div>
-
-                 <VideoTestimonialsCarousel />
+                </div>
              </div>
           </div>
+        </div>
 
-          {/* BOTÃO RODAPÉ CTA - TAMBÉM APONTA PARA O LINK DE CADASTRO */}
-          <div className="w-full bg-[#060713] py-14 px-6 text-center border-t border-purple-900/30 relative">
-            <div className="max-w-3xl mx-auto">
-              <div className="mb-8 space-y-3">
-                <p className="text-2xl md:text-3xl text-white font-black leading-tight tracking-tight">
-                  Pronto para economizar e navegar muito mais?
-                </p>
-                <p className="text-base md:text-lg text-slate-300 font-semibold leading-relaxed">
-                  Clique no botão abaixo para escolher o plano ideal para você.
-                </p>
-              </div>
-              
-              <a 
-                href={getCadastroLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-4 tracking-wider mx-auto uppercase hover:opacity-95 transition-all cursor-pointer block text-center"
-              >
-                Quero internet turbinada
-              </a>
+        {/* ÁREA DOS CARROSSÉIS (100% LIVRES PARA ROLAGEM VERTICAL E HORIZONTAL) */}
+        <div className="w-full bg-[#050611] border-y border-purple-900/30 py-10 px-0 relative">
+           <div className="w-full space-y-8">
+               
+               {/* CARROSSEL 1: CHATS / PRINTS DO WHATSAPP (ROLAGEM MANUAL LIVRE - lazy + async) */}
+               <div className="w-full">
+                  <div className="max-w-4xl mx-auto px-4 mb-3">
+                    <p className="text-sm md:text-base font-bold text-purple-300">
+                      Resultados e conversas reais no WhatsApp:
+                    </p>
+                  </div>
+                  <DraggablePhotoRow
+                    id="chats-carousel"
+                    items={chatItems}
+                    borderColorClass="border-purple-500/40 hover:border-purple-400"
+                    objectFitClass="object-contain"
+                  />
+               </div>
+
+               {/* CARROSSEL 2: FOTOS DOS ASSOCIADOS (ROLAGEM MANUAL LIVRE - lazy + async) */}
+               <div className="w-full">
+                  <div className="max-w-4xl mx-auto px-4 mb-3">
+                    <p className="text-sm md:text-base font-bold text-indigo-300">
+                      Nossos associados por todo o Brasil:
+                    </p>
+                  </div>
+                  <DraggablePhotoRow
+                    id="photos-carousel"
+                    items={photoItems}
+                    borderColorClass="border-indigo-500/40 hover:border-indigo-400"
+                    objectFitClass="object-cover"
+                  />
+               </div>
+
+               {/* CARROSSEL 3: VÍDEOS DE DEPOIMENTOS (ROLAGEM MANUAL LIVRE) */}
+               <VideoTestimonialsCarousel />
+           </div>
+        </div>
+
+        {/* BOTÃO FINAL DE CTA */}
+        <div className="w-full bg-[#060713] py-14 px-6 text-center border-t border-purple-900/30 relative">
+          <div className="max-w-3xl mx-auto">
+            <div className="mb-8 space-y-3">
+              <p className="text-2xl md:text-3xl text-white font-black leading-tight tracking-tight">
+                Pronto para economizar e navegar muito mais?
+              </p>
+              <p className="text-base md:text-lg text-slate-300 font-semibold leading-relaxed">
+                Clique no botão abaixo para escolher o plano ideal para você.
+              </p>
             </div>
+            
+            <a 
+              href="https://associarse.com.br"
+              className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-4 tracking-wider mx-auto uppercase hover:opacity-95"
+            >
+              Quero internet turbinada
+            </a>
           </div>
         </div>
       </div>
 
-      <WhatsAppButton representante={representante} />
+      <WhatsAppButton />
 
+      {/* Popup de Depoimentos em Vídeo (Full Screen) */}
       {isVideoPopupOpen && (
         <div className="fixed inset-0 z-50 bg-black flex flex-col">
           <div className="absolute top-4 right-4 z-50">
