@@ -15,7 +15,8 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   // Mensagem padronizada fixa para qualquer página
   const message = "Olá, estou vindo do site da Federal Associados. Você poderia me explicar como funciona essa internet?";
 
-  const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
+  // Correção aplicada aqui: usando wa.me em vez de api.whatsapp.com/send
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
     <a
