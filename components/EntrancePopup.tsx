@@ -90,21 +90,17 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
 
-  // Mensagem padronizada sem nome do representante
-  const MENSAGEM_PADRAO = "Olá, estou vindo do site da Federal Associados. Você poderia me explicar como funciona essa internet?";
+  // Pega o link de cadastro do representante atual
+  const getCadastroLink = () => {
+    let url = representante.linkCadastro || REPRESENTANTE_PADRAO.linkCadastro;
 
-  // Função para montar a URL do WhatsApp usando a propriedade whatsapp do seu tipo
-  const getWhatsAppLink = () => {
-    const numeroLimpo = (representante.whatsapp || REPRESENTANTE_PADRAO.whatsapp).replace(/\D/g, '');
-    const mensagemEncoded = encodeURIComponent(MENSAGEM_PADRAO);
-    let linkBase = `https://api.whatsapp.com/send/?phone=${numeroLimpo}&text=${mensagemEncoded}`;
-
+    // Preserva parâmetros UTM caso existam na URL
     if (typeof window !== 'undefined' && window.location.search) {
-      const search = window.location.search.slice(1);
-      linkBase += `&${search}`;
+      const search = window.location.search;
+      url += url.includes('?') ? `&${search.slice(1)}` : search;
     }
 
-    return linkBase;
+    return url;
   };
 
   const TESTIMONIAL_PHOTOS = [
@@ -226,10 +222,10 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                   />
                 </div>
                 
-                {/* BOTÃO PRINCIPAL */}
+                {/* BOTÃO HERO CTA - APONTA PARA O LINK DE CADASTRO */}
                 <div className="pt-2 pb-0">
                   <a 
-                    href={getWhatsAppLink()}
+                    href={getCadastroLink()}
                     target="_blank"
                     rel="noopener noreferrer"
                     id="btn-hero-cta-blue"
@@ -361,7 +357,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
              </div>
           </div>
 
-          {/* BOTÃO INFERIOR DE CTA */}
+          {/* BOTÃO RODAPÉ CTA - TAMBÉM APONTA PARA O LINK DE CADASTRO */}
           <div className="w-full bg-[#060713] py-14 px-6 text-center border-t border-purple-900/30 relative">
             <div className="max-w-3xl mx-auto">
               <div className="mb-8 space-y-3">
@@ -374,7 +370,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
               </div>
               
               <a 
-                href={getWhatsAppLink()}
+                href={getCadastroLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-4 tracking-wider mx-auto uppercase hover:opacity-95 transition-all cursor-pointer block text-center"
@@ -386,7 +382,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
         </div>
       </div>
 
-      <WhatsAppButton />
+      <WhatsAppButton representante={representante} />
 
       {isVideoPopupOpen && (
         <div className="fixed inset-0 z-50 bg-black flex flex-col">
