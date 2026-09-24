@@ -342,7 +342,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
         {/* ÁREA DOS CARROSSÉIS (100% LIVRES PARA ROLAGEM VERTICAL E HORIZONTAL) */}
         <div className="w-full bg-[#050611] border-y border-purple-900/30 py-10 px-0 relative">
            <div className="w-full space-y-8">
-               
+              
                {/* CARROSSEL 1: CHATS / PRINTS DO WHATSAPP (ROLAGEM MANUAL LIVRE - lazy + async) */}
                <div className="w-full">
                   <div className="max-w-4xl mx-auto px-4 mb-3">
