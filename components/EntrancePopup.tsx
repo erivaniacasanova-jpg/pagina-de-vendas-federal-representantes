@@ -2,10 +2,12 @@ import React, { useState, useRef } from 'react';
 import { CheckCircle2, X } from 'lucide-react';
 import { WhatsAppButton } from './WhatsAppButton';
 import { VideoTestimonialsCarousel } from './VideoTestimonialsCarousel';
+import { Representante, REPRESENTANTE_PADRAO } from '../representantes';
 
 interface EntrancePopupProps {
   isVisible: boolean;
   onAccept: (name: string) => void;
+  representante?: Representante;
 }
 
 interface DraggablePhotoRowProps {
@@ -83,9 +85,12 @@ const DraggablePhotoRow: React.FC<DraggablePhotoRowProps> = ({
 
 /**
  * EntrancePopup Component
- * Version 5.5.0 - Added federalcelular.jpeg between subtitle and CTA button.
+ * Version 5.5.0 - Dynamic Representative CTA Links
  */
-export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
+export const EntrancePopup: React.FC<EntrancePopupProps> = ({ 
+  isVisible, 
+  representante = REPRESENTANTE_PADRAO 
+}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
 
@@ -180,7 +185,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                 ))}
               </div>
 
-              {/* E O MELHOR + IMAGEM FEDERALAPPS.JPG (Abaixo da primeira dobra: lazy + async) */}
+              {/* E O MELHOR + IMAGEM FEDERALAPPS.JPG */}
               <div className="max-w-3xl mx-auto text-center space-y-4 pt-2 pb-6">
                 <p className="text-xl md:text-2xl text-white font-black leading-snug tracking-wide uppercase">
                   E o melhor
@@ -219,7 +224,9 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                 
                 <div className="pt-2 pb-0">
                   <a 
-                    href="https://associarse.com.br"
+                    href={representante.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     id="btn-hero-cta-blue"
                     className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 px-8 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-3 tracking-wider mx-auto uppercase hover:opacity-95"
                   >
@@ -227,7 +234,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                   </a>
                 </div>
 
-                {/* IMAGEM ABAIXO DE QUERO MEU PLANO: FEDERAL111.JPG (lazy + async) */}
+                {/* IMAGEM ABAIXO DE QUERO MEU PLANO: FEDERAL111.JPG */}
                 <div className="flex justify-center pt-4 pb-2">
                   <img 
                     src="https://videos.suanetturbinada.com.br/federal111.jpg" 
@@ -245,7 +252,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
           </div>
         </div>
 
-        {/* SEÇÃO CONHEÇA A FEDERAL ASSOCIADOS (TEXTO E CREDIBILIDADE) */}
+        {/* SEÇÃO CONHEÇA A FEDERAL ASSOCIADOS */}
         <div className="w-full pb-10">
           <div className="w-full pt-4 pb-8 px-6">
             <div className="max-w-4xl mx-auto">
@@ -279,11 +286,10 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
               </div>
             </div>
 
-            {/* SEÇÃO CHIPS / OPERADORAS (federal3.jpg e federalchips.jpg) */}
+            {/* SEÇÃO CHIPS / OPERADORAS */}
             <div className="w-full max-w-4xl mx-auto mb-4 space-y-6 pt-6">
                <div className="text-center px-4 space-y-6">
                   
-                  {/* federal3.jpg (lazy + async) */}
                   <div className="flex justify-center py-2">
                     <img 
                       src="https://videos.suanetturbinada.com.br/federal3.jpg" 
@@ -303,7 +309,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                       Escolha seu plano hoje mesmo e conecte-se a uma internet turbinada de verdade.
                     </p>
                     
-                    {/* IMAGEM FEDERALCHIPS.JPG (lazy + async) */}
                     <div className="flex justify-center pt-4">
                       <img 
                         src="https://videos.suanetturbinada.com.br/federalchips.jpg" 
@@ -320,11 +325,10 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
             </div>
           </div>
 
-          {/* ÁREA DOS CARROSSÉIS (100% LIVRES PARA ROLAGEM VERTICAL E HORIZONTAL) */}
+          {/* ÁREA DOS CARROSSÉIS */}
           <div className="w-full bg-[#050611] border-y border-purple-900/30 py-10 px-0 relative">
              <div className="w-full space-y-8">
                  
-                 {/* CARROSSEL 1: CHATS / PRINTS DO WHATSAPP (ROLAGEM MANUAL LIVRE - lazy + async) */}
                  <div className="w-full">
                     <div className="max-w-4xl mx-auto px-4 mb-3">
                       <p className="text-sm md:text-base font-bold text-purple-300">
@@ -339,7 +343,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                     />
                  </div>
 
-                 {/* CARROSSEL 2: FOTOS DOS ASSOCIADOS (ROLAGEM MANUAL LIVRE - lazy + async) */}
                  <div className="w-full">
                     <div className="max-w-4xl mx-auto px-4 mb-3">
                       <p className="text-sm md:text-base font-bold text-indigo-300">
@@ -354,7 +357,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                     />
                  </div>
 
-                 {/* CARROSSEL 3: VÍDEOS DE DEPOIMENTOS (ROLAGEM MANUAL LIVRE) */}
                  <VideoTestimonialsCarousel />
              </div>
           </div>
@@ -372,7 +374,9 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
               </div>
               
               <a 
-                href="https://associarse.com.br"
+                href={representante.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-4 tracking-wider mx-auto uppercase hover:opacity-95"
               >
                 Quero internet turbinada
