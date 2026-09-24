@@ -85,7 +85,7 @@ const DraggablePhotoRow: React.FC<DraggablePhotoRowProps> = ({
 
 /**
  * EntrancePopup Component
- * Version 5.5.0 - Dynamic Representative CTA Links
+ * Version 5.6.0 - Dynamic Representative CTA Links + UTM Preservation
  */
 export const EntrancePopup: React.FC<EntrancePopupProps> = ({ 
   isVisible, 
@@ -93,6 +93,13 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
+
+  // Função para repassar os parâmetros da URL atual para o link final
+  const getLinkComParametros = (urlBase: string) => {
+    if (typeof window === 'undefined' || !window.location.search) return urlBase;
+    const search = window.location.search;
+    return urlBase.includes('?') ? `${urlBase}&${search.slice(1)}` : `${urlBase}${search}`;
+  };
 
   const TESTIMONIAL_PHOTOS = [
     "https://res.cloudinary.com/dls9nwecf/image/upload/v1764148119/ft3_izcncc.jpg",
@@ -224,7 +231,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                 
                 <div className="pt-2 pb-0">
                   <a 
-                    href={representante.link}
+                    href={getLinkComParametros(representante.link)}
                     target="_blank"
                     rel="noopener noreferrer"
                     id="btn-hero-cta-blue"
@@ -374,7 +381,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
               </div>
               
               <a 
-                href={representante.link}
+                href={getLinkComParametros(representante.link)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-4 tracking-wider mx-auto uppercase hover:opacity-95"
