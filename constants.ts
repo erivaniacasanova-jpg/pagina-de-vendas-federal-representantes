@@ -4,11 +4,11 @@ import { Feature, FAQItem, Plan, Testimonial } from './types';
 // Link para Cadastro (Atualizado com novo link)
 export const REGISTRATION_LINK = "https://associarse.com.br";
 
-// Link Unificado para WhatsApp (Atualizado com novo número)
+// Link Unificado para WhatsApp (Atualizado com o link direto da API para exibir a foto e o nome)
 const PHONE_NUMBER = "558481321396";
 const WELCOME_MESSAGE = encodeURIComponent("Olá, estou vindo do site da Federal Associados. Você poderia me explicar como funciona essa internet?");
-export const WHATSAPP_LINK_SALES = `https://wa.me/${PHONE_NUMBER}?text=${WELCOME_MESSAGE}`;
-export const WHATSAPP_LINK_SUPPORT = `https://wa.me/${PHONE_NUMBER}?text=${WELCOME_MESSAGE}`;
+export const WHATSAPP_LINK_SALES = `https://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${WELCOME_MESSAGE}`;
+export const WHATSAPP_LINK_SUPPORT = `https://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${WELCOME_MESSAGE}`;
 
 export const FEATURES: Feature[] = [
   {
