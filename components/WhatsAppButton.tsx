@@ -30,18 +30,20 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ representante: p
       href={urlWa}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 transition-transform hover:scale-110 flex items-center justify-center filter drop-shadow-md"
+      className="fixed bottom-6 right-6 z-50 transition-transform hover:scale-110 flex items-center justify-center drop-shadow-xl"
       aria-label="Contato WhatsApp"
     >
-      <svg className="w-14 h-14" viewBox="0 0 24 24" fill="none">
-        {/* Círculo/Fundo Verde Oficial */}
-        <circle cx="12" cy="12" r="12" fill="#25D366" />
+      <svg className="w-16 h-16" viewBox="0 0 60 60" fill="none">
+        {/* Anel Externo Verde Claro */}
+        <circle cx="30" cy="30" r="30" fill="#25D366" />
         
-        {/* Balão e Telefone em Branco */}
+        {/* Círculo Principal Verde */}
+        <circle cx="30" cy="30" r="27" fill="#128C7E" />
+        <circle cx="30" cy="30" r="27" fill="#25D366" />
+        
+        {/* Ícone do WhatsApp Vazado (Branco Fino) */}
         <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M12 4a8 8 0 0 0-6.89 12.06L4 20l4.03-1.05A8 8 0 1 0 12 4zm4.67 11.23c-.2.55-1.16 1.07-1.6 1.12-.41.04-.94.18-3.08-.66-2.58-1.01-4.21-3.64-4.34-3.81-.13-.17-1.04-1.38-1.04-2.64 0-1.25.65-1.87.88-2.12.23-.25.5-.31.67-.31.17 0 .34 0 .49.01.16.01.37-.06.58.44.22.52.74 1.8.8 1.93.07.13.11.29.02.46-.09.17-.14.28-.27.43-.13.16-.28.35-.4.47-.13.13-.27.27-.11.53.15.26.68 1.12 1.46 1.81 1 .89 1.85 1.17 2.11 1.3.26.13.41.11.56-.06.15-.17.65-.76.82-1.02.17-.26.35-.22.58-.13.24.09 1.51.71 1.77.84.26.13.43.2.49.31.07.11.07.65-.13 1.2z"
+          d="M30.5 15C22.2 15 15.5 21.7 15.5 30c0 3.3.9 6.2 2.5 8.8L16 45l6.4-2c2.4 1.4 5.2 2.1 8.1 2.1 8.3 0 15-6.7 15-15S38.8 15 30.5 15zm0 26.8c-2.5 0-5-.7-7.1-1.9l-.5-.3-3.8 1.2 1.2-3.7-.3-.5c-1.4-2.1-2.1-4.6-2.1-7.1 0-7 5.7-12.7 12.7-12.7 7 0 12.7 5.7 12.7 12.7 0 7-5.7 12.3-12.8 12.3zm6.9-9.3c-.4-.2-2.3-1.1-2.6-1.3-.4-.1-.6-.2-.9.2-.2.4-.9 1.3-1.1 1.5-.2.2-.4.3-.8.1-2.4-1.2-4.1-2.2-5.7-5-.4-.7.4-.7 1.1-2.1.1-.2.1-.4 0-.6-.1-.2-.9-2.2-1.2-3-.3-.8-.7-.7-.9-.7h-.8c-.3 0-.9.1-1.4.6-.5.5-1.8 1.8-1.8 4.3 0 2.5 1.8 5 2.1 5.3.3.4 3.6 5.5 8.8 7.7 3.2 1.4 4.5 1.5 6.1 1.3 1-.1 3.1-1.3 3.5-2.5.4-1.2.4-2.3.3-2.5-.2-.2-.4-.3-.8-.5z"
           fill="white"
         />
       </svg>
