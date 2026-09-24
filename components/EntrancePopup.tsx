@@ -83,10 +83,6 @@ const DraggablePhotoRow: React.FC<DraggablePhotoRowProps> = ({
   );
 };
 
-/**
- * EntrancePopup Component
- * Version 5.6.0 - Dynamic Representative CTA Links + UTM Preservation
- */
 export const EntrancePopup: React.FC<EntrancePopupProps> = ({ 
   isVisible, 
   representante = REPRESENTANTE_PADRAO 
@@ -94,11 +90,22 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
 
-  // Função para repassar os parâmetros da URL atual para o link final
-  const getLinkComParametros = (urlBase: string) => {
-    if (typeof window === 'undefined' || !window.location.search) return urlBase;
-    const search = window.location.search;
-    return urlBase.includes('?') ? `${urlBase}&${search.slice(1)}` : `${urlBase}${search}`;
+  // Mensagem padrão única e fixa para o WhatsApp
+  const MENSAGEM_PADRAO = "Olá, estou vindo do site da Federal Associados. Você poderia me explicar como funciona essa internet?";
+
+  // Função central para gerar o link do WhatsApp com o número do representante e a mensagem FIXA
+  const getWhatsAppLink = () => {
+    const numeroLimpo = (representante.whatsapp || representante.telefone || '').replace(/\D/g, '');
+    const mensagemEncoded = encodeURIComponent(MENSAGEM_PADRAO);
+    let linkBase = `https://api.whatsapp.com/send/?phone=${numeroLimpo}&text=${mensagemEncoded}`;
+
+    // Preserva os parâmetros UTM da URL atual
+    if (typeof window !== 'undefined' && window.location.search) {
+      const search = window.location.search.slice(1);
+      linkBase += `&${search}`;
+    }
+
+    return linkBase;
   };
 
   const TESTIMONIAL_PHOTOS = [
@@ -140,8 +147,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
       ref={scrollRef} 
       className="w-full bg-[#060713] text-slate-100 min-h-screen relative"
     >
-      
-      {/* BARRA DE ANÚNCIO FIXA NO TOPO - 100% ESTÁTICA E LEVE */}
       <div 
         id="announcement-bar"
         className="sticky top-0 z-40 w-full bg-[#b91c1c] text-white py-2.5 px-4 text-center font-bold text-sm sm:text-base tracking-wide flex items-center justify-center gap-2 shadow-md"
@@ -150,13 +155,10 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
       </div>
 
       <div className="w-full">
-
-        {/* SEÇÃO PRINCIPAL - Imagem do Título R2 */}
         <div className="w-full pb-0">
           <div className="w-full pt-8 md:pt-12 pb-2 px-6">
             <div className="max-w-4xl mx-auto text-center">
               
-              {/* IMAGEM DO TÍTULO PRINCIPAL (Cloudflare R2) - Prioridade Máxima */}
               <div className="mb-6">
                 <img 
                   src="https://videos.suanetturbinada.com.br/federal.jpeg" 
@@ -171,7 +173,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                 />
               </div>
 
-              {/* CARDS DE BENEFÍCIOS */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 pb-6 max-w-3xl mx-auto">
                 {[
                   "Cadastro sem consulta ao SPC/SERASA",
@@ -192,7 +193,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                 ))}
               </div>
 
-              {/* E O MELHOR + IMAGEM FEDERALAPPS.JPG */}
               <div className="max-w-3xl mx-auto text-center space-y-4 pt-2 pb-6">
                 <p className="text-xl md:text-2xl text-white font-black leading-snug tracking-wide uppercase">
                   E o melhor
@@ -210,13 +210,11 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                 </div>
               </div>
 
-              {/* BLOCO: TEXTO E BOTÃO ESTÁTICO COM A IMAGEM FEDERALCELULAR.JPEG */}
               <div className="pt-2 pb-1 max-w-2xl mx-auto text-center space-y-6">
                 <p className="text-lg md:text-2xl text-white font-black leading-snug tracking-tight">
                   Mais economia, mais internet, mais liberdade para você.
                 </p>
 
-                {/* IMAGEM FEDERALCELULAR.JPEG */}
                 <div className="flex justify-center pt-2 pb-2">
                   <img 
                     src="https://videos.suanetturbinada.com.br/federalcelular.jpeg" 
@@ -229,19 +227,19 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                   />
                 </div>
                 
+                {/* BOTÃO HERO CTA COM O LINK DO WHATSAPP DO REPRESENTANTE E MENSAGEM PADRÃO */}
                 <div className="pt-2 pb-0">
                   <a 
-                    href={getLinkComParametros(representante.link)}
+                    href={getWhatsAppLink()}
                     target="_blank"
                     rel="noopener noreferrer"
                     id="btn-hero-cta-blue"
-                    className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 px-8 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-3 tracking-wider mx-auto uppercase hover:opacity-95"
+                    className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 px-8 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-3 tracking-wider mx-auto uppercase hover:opacity-95 transition-all cursor-pointer block text-center"
                   >
                     QUERO MEU PLANO
                   </a>
                 </div>
 
-                {/* IMAGEM ABAIXO DE QUERO MEU PLANO: FEDERAL111.JPG */}
                 <div className="flex justify-center pt-4 pb-2">
                   <img 
                     src="https://videos.suanetturbinada.com.br/federal111.jpg" 
@@ -259,7 +257,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
           </div>
         </div>
 
-        {/* SEÇÃO CONHEÇA A FEDERAL ASSOCIADOS */}
         <div className="w-full pb-10">
           <div className="w-full pt-4 pb-8 px-6">
             <div className="max-w-4xl mx-auto">
@@ -273,7 +270,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                     Por que confiar na Federal Associados?
                   </p>
 
-                  {/* CARDS DE CREDIBILIDADE */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 pb-2 max-w-2xl mx-auto text-slate-100 font-bold">
                     <div className="bg-[#0d0f22] border border-purple-500/25 rounded-2xl p-4 shadow-sm flex items-center justify-center text-center">
                       +14 anos de atuação
@@ -293,7 +289,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
               </div>
             </div>
 
-            {/* SEÇÃO CHIPS / OPERADORAS */}
             <div className="w-full max-w-4xl mx-auto mb-4 space-y-6 pt-6">
                <div className="text-center px-4 space-y-6">
                   
@@ -332,7 +327,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
             </div>
           </div>
 
-          {/* ÁREA DOS CARROSSÉIS */}
           <div className="w-full bg-[#050611] border-y border-purple-900/30 py-10 px-0 relative">
              <div className="w-full space-y-8">
                  
@@ -368,7 +362,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
              </div>
           </div>
 
-          {/* BOTÃO FINAL DE CTA */}
+          {/* BOTÃO FINAL DE CTA FIXADO E CLICÁVEL */}
           <div className="w-full bg-[#060713] py-14 px-6 text-center border-t border-purple-900/30 relative">
             <div className="max-w-3xl mx-auto">
               <div className="mb-8 space-y-3">
@@ -381,10 +375,10 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
               </div>
               
               <a 
-                href={getLinkComParametros(representante.link)}
+                href={getWhatsAppLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-4 tracking-wider mx-auto uppercase hover:opacity-95"
+                className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-4 tracking-wider mx-auto uppercase hover:opacity-95 transition-all cursor-pointer block text-center"
               >
                 Quero internet turbinada
               </a>
@@ -395,7 +389,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
 
       <WhatsAppButton />
 
-      {/* Popup de Depoimentos em Vídeo (Full Screen) */}
       {isVideoPopupOpen && (
         <div className="fixed inset-0 z-50 bg-black flex flex-col">
           <div className="absolute top-4 right-4 z-50">
