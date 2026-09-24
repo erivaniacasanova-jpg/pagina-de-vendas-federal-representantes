@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { EntrancePopup } from './components/EntrancePopup';
+import { REPRESENTANTES, REPRESENTANTE_PADRAO, Representante } from './representantes';
 
 /**
  * App Component
- * Version 5.5.0 - Added federalcelular.jpeg image above CTA button.
+ * Version 5.5.0 - Dynamic Representative Detection
  */
 const App: React.FC = () => {
   const [userName, setUserName] = useState('');
+  const [representante, setRepresentante] = useState<Representante>(REPRESENTANTE_PADRAO);
 
   // Rebuild trigger for total cache invalidation
   const _forceRebuild = "v5.5.0_federalcelular_image_" + Date.now();
 
   useEffect(() => {
+    // 1. Identifica o ID do representante direto pela URL (ex: "/135302" -> "135302")
+    const pathId = window.location.pathname.replace('/', '').trim();
+
+    if (pathId && REPRESENTANTES[pathId]) {
+      setRepresentante(REPRESENTANTES[pathId]);
+    }
+
+    // 2. Trata navegação por Hash na página
     const handleHashChange = () => {
       const { hash } = window.location;
       if (hash) {
