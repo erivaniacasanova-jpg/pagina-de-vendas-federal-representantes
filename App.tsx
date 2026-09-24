@@ -46,6 +46,7 @@ const App: React.FC = () => {
       <EntrancePopup 
         isVisible={true} 
         onAccept={handleAcceptEntrance} 
+        representante={representante}
       />
       {/* Cache bust: {_forceRebuild.slice(0, 10)} */}
     </div>
