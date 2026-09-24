@@ -1,0 +1,41 @@
+export interface Representante {
+  id: string
+  nome: string
+  whatsapp: string
+  linkCadastro: string
+}
+
+export const REPRESENTANTES: Record<string, Representante> = {
+  "134684": {
+    id: "134684",
+    nome: "William Dos Santos Pessoa",
+    whatsapp: "5521969400194",
+    linkCadastro: "https://associarse.com.br/134684"
+  },
+  "135302": {
+    id: "135302",
+    nome: "Antonia Erivania Delmiro Jacinto",
+    whatsapp: "558498410187",
+    linkCadastro: "https://associarse.com.br/135302"
+  },
+  "153542": {
+    id: "153542",
+    nome: "Aline Aparecida Melo",
+    whatsapp: "553193371195",
+    linkCadastro: "https://associarse.com.br/153542"
+  },
+  "191651": {
+    id: "191651",
+    nome: "Gilmar Goncalves De Paula",
+    whatsapp: "5522998914547",
+    linkCadastro: "https://associarse.com.br/191651"
+  },
+  "119294": {
+    id: "119294",
+    nome: "Narcisio Marques Da Silva",
+    whatsapp: "5511974805837",
+    linkCadastro: "https://associarse.com.br/119294"
+  }
+}
+
+export const REPRESENTANTE_PADRAO: Representante = REPRESENTANTES["135302"]
