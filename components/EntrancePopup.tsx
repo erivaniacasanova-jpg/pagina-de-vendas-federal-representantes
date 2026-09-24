@@ -6,7 +6,7 @@ import { Representante, REPRESENTANTE_PADRAO } from '../representantes';
 
 interface EntrancePopupProps {
   isVisible: boolean;
-  onAccept: (name: string) => void;
+  onAccept?: (name: string) => void;
   representante?: Representante;
 }
 
@@ -90,16 +90,15 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
 
-  // Mensagem padrão única e fixa para o WhatsApp
+  // Mensagem padronizada sem nome do representante
   const MENSAGEM_PADRAO = "Olá, estou vindo do site da Federal Associados. Você poderia me explicar como funciona essa internet?";
 
-  // Função central para gerar o link do WhatsApp com o número do representante e a mensagem FIXA
+  // Função para montar a URL do WhatsApp usando a propriedade whatsapp do seu tipo
   const getWhatsAppLink = () => {
-    const numeroLimpo = (representante.whatsapp || representante.telefone || '').replace(/\D/g, '');
+    const numeroLimpo = (representante.whatsapp || REPRESENTANTE_PADRAO.whatsapp).replace(/\D/g, '');
     const mensagemEncoded = encodeURIComponent(MENSAGEM_PADRAO);
     let linkBase = `https://api.whatsapp.com/send/?phone=${numeroLimpo}&text=${mensagemEncoded}`;
 
-    // Preserva os parâmetros UTM da URL atual
     if (typeof window !== 'undefined' && window.location.search) {
       const search = window.location.search.slice(1);
       linkBase += `&${search}`;
@@ -227,7 +226,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
                   />
                 </div>
                 
-                {/* BOTÃO HERO CTA COM O LINK DO WHATSAPP DO REPRESENTANTE E MENSAGEM PADRÃO */}
+                {/* BOTÃO PRINCIPAL */}
                 <div className="pt-2 pb-0">
                   <a 
                     href={getWhatsAppLink()}
@@ -362,7 +361,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({
              </div>
           </div>
 
-          {/* BOTÃO FINAL DE CTA FIXADO E CLICÁVEL */}
+          {/* BOTÃO INFERIOR DE CTA */}
           <div className="w-full bg-[#060713] py-14 px-6 text-center border-t border-purple-900/30 relative">
             <div className="max-w-3xl mx-auto">
               <div className="mb-8 space-y-3">
