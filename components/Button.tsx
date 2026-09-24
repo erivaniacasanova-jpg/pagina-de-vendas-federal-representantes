@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { trackEvent } from '../services/tracking';
+import { REPRESENTANTES, REPRESENTANTE_PADRAO, Representante } from '../representantes';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline';
@@ -21,7 +22,17 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   ...props 
 }) => {
-  
+  const [representante, setRepresentante] = useState<Representante>(REPRESENTANTE_PADRAO);
+
+  useEffect(() => {
+    // Identifica o ID do representante direto pela URL (ex: "/135302" -> "135302")
+    const pathId = window.location.pathname.replace('/', '').trim();
+
+    if (pathId && REPRESENTANTES[pathId]) {
+      setRepresentante(REPRESENTANTES[pathId]);
+    }
+  }, []);
+
   const baseStyles = "inline-flex items-center justify-center px-8 py-4 text-base font-bold rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 relative overflow-hidden";
   
   const variants = {
@@ -61,9 +72,12 @@ export const Button: React.FC<ButtonProps> = ({
   if (href) {
     const isAnchor = href.startsWith('#');
 
+    // Se NÃO for uma âncora interna (#), direciona dinamicamente para o link de cadastro do representante atual
+    const finalHref = isAnchor ? href : representante.linkCadastro;
+
     return (
       <a 
-        href={href} 
+        href={finalHref} 
         onClick={handleAction}
         target={isAnchor ? undefined : "_blank"} 
         rel={isAnchor ? undefined : "noopener noreferrer"}
