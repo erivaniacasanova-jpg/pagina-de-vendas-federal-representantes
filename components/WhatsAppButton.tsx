@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { REPRESENTANTES, REPRESENTANTE_PADRAO, Representante } from '../representantes';
 
-export const WhatsAppButton: React.FC = () => {
-  const [representante, setRepresentante] = useState<Representante>(REPRESENTANTE_PADRAO);
+interface WhatsAppButtonProps {
+  representante?: Representante;
+}
+
+export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ representante: propRepresentante }) => {
+  const [representante, setRepresentante] = useState<Representante>(propRepresentante || REPRESENTANTE_PADRAO);
 
   useEffect(() => {
+    // Se o representante veio via prop (do EntrancePopup), usa ele
+    if (propRepresentante) {
+      setRepresentante(propRepresentante);
+      return;
+    }
+    // Caso contrário, tenta identificar pela URL
     const pathId = window.location.pathname.replace('/', '').trim();
     if (pathId && REPRESENTANTES[pathId]) {
       setRepresentante(REPRESENTANTES[pathId]);
     }
-  }, []);
+  }, [propRepresentante]);
 
-  const msg = encodeURIComponent(`Olá! Vim pelo site e gostaria de informações com ${representante.nome}.`);
+  // Mensagem fixa exata para todos (padrão ou representante)
+  const mensagemTexto = "Olá, estou vindo do site da Federal Associados. Você poderia me explicar como funciona essa internet?";
+  const msg = encodeURIComponent(mensagemTexto);
+  
+  // O link vai usar a mensagem fixa acima + o número do WhatsApp do representante ativo
   const urlWa = `https://wa.me/${representante.whatsapp}?text=${msg}`;
 
   return (
