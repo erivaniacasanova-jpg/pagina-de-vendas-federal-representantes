@@ -5,9 +5,9 @@ import './index.css';
 
 /**
  * Entry point
- * Build ID: v5.5.0 - Added federalcelular.jpeg image.
+ * Build ID: v5.6.0 - Added todobrasil.jpeg and "Após se cadastrar" caption.
  */
-const BUILD_ID = "v5.5.0_federalcelular_image_" + Date.now();
+const BUILD_ID = "v5.6.0_todobrasil_image_" + Date.now();
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
