@@ -2,10 +2,12 @@ import React, { useState, useRef } from 'react';
 import { CheckCircle2, X } from 'lucide-react';
 import { WhatsAppButton } from './WhatsAppButton';
 import { VideoTestimonialsCarousel } from './VideoTestimonialsCarousel';
+import { Representante, REPRESENTANTE_PADRAO } from '../representantes';
 
 interface EntrancePopupProps {
   isVisible: boolean;
-  onAccept: (name: string) => void;
+  onAccept?: (name: string) => void;
+  representante?: Representante;
 }
 
 interface DraggablePhotoRowProps {
@@ -83,11 +85,26 @@ const DraggablePhotoRow: React.FC<DraggablePhotoRowProps> = ({
 
 /**
  * EntrancePopup Component
- * Version 5.6.0 - Added todobrasil.jpeg and "Após se cadastrar" caption.
+ * Version 5.6.0 - Added todobrasil.jpeg and "Após se cadastrar" caption with dynamic representatives support.
  */
-export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
+export const EntrancePopup: React.FC<EntrancePopupProps> = ({ 
+  isVisible, 
+  representante = REPRESENTANTE_PADRAO 
+}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
+
+  // Pega o link de cadastro do representante atual preservando parâmetros da URL
+  const getCadastroLink = () => {
+    let url = representante.linkCadastro || REPRESENTANTE_PADRAO.linkCadastro;
+
+    if (typeof window !== 'undefined' && window.location.search) {
+      const search = window.location.search;
+      url += url.includes('?') ? `&${search.slice(1)}` : search;
+    }
+
+    return url;
+  };
 
   const TESTIMONIAL_PHOTOS = [
     "https://res.cloudinary.com/dls9nwecf/image/upload/v1764148119/ft3_izcncc.jpg",
@@ -180,7 +197,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                 ))}
               </div>
 
-              {/* E O MELHOR + IMAGEM FEDERALAPPS.JPG (Abaixo da primeira dobra: lazy + async) */}
+              {/* E O MELHOR + IMAGEM FEDERALAPPS.JPG */}
               <div className="max-w-3xl mx-auto text-center space-y-4 pt-2 pb-6">
                 <p className="text-xl md:text-2xl text-white font-black leading-snug tracking-wide uppercase">
                   E o melhor
@@ -198,7 +215,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                 </div>
               </div>
 
-              {/* BLOCO: TEXTO E BOTÃO ESTÁTICO COM A IMAGEM FEDERALCELULAR.JPEG */}
+              {/* BLOCO: TEXTO E BOTÃO COM A IMAGEM FEDERALCELULAR.JPEG */}
               <div className="pt-2 pb-1 max-w-2xl mx-auto text-center space-y-6">
                 <p className="text-lg md:text-2xl text-white font-black leading-snug tracking-tight">
                   Mais economia, mais internet, mais liberdade para você.
@@ -219,15 +236,17 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                 
                 <div className="pt-2 pb-0">
                   <a 
-                    href="https://associarse.com.br"
+                    href={getCadastroLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     id="btn-hero-cta-blue"
-                    className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 px-8 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-3 tracking-wider mx-auto uppercase hover:opacity-95"
+                    className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 px-8 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-3 tracking-wider mx-auto uppercase hover:opacity-95 transition-all cursor-pointer block text-center"
                   >
                     QUERO MEU PLANO
                   </a>
                 </div>
 
-                {/* IMAGEM ABAIXO DE QUERO MEU PLANO: FEDERAL111.JPG (lazy + async) */}
+                {/* IMAGEM ABAIXO DE QUERO MEU PLANO: FEDERAL111.JPG */}
                 <div className="flex justify-center pt-4 pb-2">
                   <img 
                     src="https://videos.suanetturbinada.com.br/federal111.jpg" 
@@ -245,7 +264,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
           </div>
         </div>
 
-        {/* SEÇÃO CONHEÇA A FEDERAL ASSOCIADOS (TEXTO E CREDIBILIDADE) */}
+        {/* SEÇÃO CONHEÇA A FEDERAL ASSOCIADOS */}
         <div className="w-full pb-10">
           <div className="w-full pt-4 pb-8 px-6">
             <div className="max-w-4xl mx-auto">
@@ -280,11 +299,10 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
             </div>
           </div>
 
-          {/* SEÇÃO CHIPS / OPERADORAS (federal3.jpg, todobrasil.jpeg, Após se cadastrar e federalchips.jpg) */}
+          {/* SEÇÃO CHIPS / OPERADORAS */}
           <div className="w-full max-w-4xl mx-auto mb-4 space-y-6 pt-6">
              <div className="text-center px-4 space-y-6">
                 
-                {/* federal3.jpg (lazy + async) */}
                 <div className="flex justify-center py-2">
                   <img 
                     src="https://videos.suanetturbinada.com.br/federal3.jpg" 
@@ -304,7 +322,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                     Escolha seu plano hoje mesmo e conecte-se a uma internet turbinada de verdade.
                   </p>
                   
-                  {/* IMAGEM TODOBRASIL.JPEG (lazy + async) */}
+                  {/* IMAGEM TODOBRASIL.JPEG */}
                   <div className="flex justify-center pt-4">
                     <img 
                       src="https://videos.suanetturbinada.com.br/todobrasil.jpeg" 
@@ -322,7 +340,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                     Após se cadastrar
                   </p>
 
-                  {/* IMAGEM FEDERALCHIPS.JPG (lazy + async) */}
+                  {/* IMAGEM FEDERALCHIPS.JPG */}
                   <div className="flex justify-center pt-2">
                     <img 
                       src="https://videos.suanetturbinada.com.br/federalchips.jpg" 
@@ -339,11 +357,10 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
           </div>
         </div>
 
-        {/* ÁREA DOS CARROSSÉIS (100% LIVRES PARA ROLAGEM VERTICAL E HORIZONTAL) */}
+        {/* ÁREA DOS CARROSSÉIS */}
         <div className="w-full bg-[#050611] border-y border-purple-900/30 py-10 px-0 relative">
            <div className="w-full space-y-8">
               
-               {/* CARROSSEL 1: CHATS / PRINTS DO WHATSAPP (ROLAGEM MANUAL LIVRE - lazy + async) */}
                <div className="w-full">
                   <div className="max-w-4xl mx-auto px-4 mb-3">
                     <p className="text-sm md:text-base font-bold text-purple-300">
@@ -358,7 +375,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                   />
                </div>
 
-               {/* CARROSSEL 2: FOTOS DOS ASSOCIADOS (ROLAGEM MANUAL LIVRE - lazy + async) */}
                <div className="w-full">
                   <div className="max-w-4xl mx-auto px-4 mb-3">
                     <p className="text-sm md:text-base font-bold text-indigo-300">
@@ -373,7 +389,6 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
                   />
                </div>
 
-               {/* CARROSSEL 3: VÍDEOS DE DEPOIMENTOS (ROLAGEM MANUAL LIVRE) */}
                <VideoTestimonialsCarousel />
            </div>
         </div>
@@ -391,8 +406,10 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
             </div>
             
             <a 
-              href="https://associarse.com.br"
-              className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-4 tracking-wider mx-auto uppercase hover:opacity-95"
+              href={getCadastroLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full max-w-md bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-xl md:text-2xl py-6 rounded-2xl shadow-lg border border-purple-400/30 flex items-center justify-center gap-4 tracking-wider mx-auto uppercase hover:opacity-95 transition-all cursor-pointer block text-center"
             >
               Quero internet turbinada
             </a>
@@ -400,7 +417,7 @@ export const EntrancePopup: React.FC<EntrancePopupProps> = ({ isVisible }) => {
         </div>
       </div>
 
-      <WhatsAppButton />
+      <WhatsAppButton representante={representante} />
 
       {/* Popup de Depoimentos em Vídeo (Full Screen) */}
       {isVideoPopupOpen && (
