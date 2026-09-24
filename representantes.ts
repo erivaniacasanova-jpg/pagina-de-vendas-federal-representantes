@@ -6,6 +6,12 @@ export interface Representante {
 }
 
 export const REPRESENTANTES: Record<string, Representante> = {
+  "110956": {
+    id: "110956",
+    nome: "Francisco Eliedisom Dos Santos", // Coloque seu nome aqui
+    whatsapp: "5584981321396", // Coloque o SEU WhatsApp com DDD (somente números)
+    linkCadastro: "https://associarse.com.br"
+  },
   "134684": {
     id: "134684",
     nome: "William Dos Santos Pessoa",
@@ -38,4 +44,5 @@ export const REPRESENTANTES: Record<string, Representante> = {
   }
 }
 
-export const REPRESENTANTE_PADRAO: Representante = REPRESENTANTES["135302"]
+// Define o seu cadastro como o padrão da página principal (sem rota)
+export const REPRESENTANTE_PADRAO: Representante = REPRESENTANTES["110956"];
