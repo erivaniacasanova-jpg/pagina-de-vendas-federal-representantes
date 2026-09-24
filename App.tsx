@@ -4,14 +4,14 @@ import { REPRESENTANTES, REPRESENTANTE_PADRAO, Representante } from './represent
 
 /**
  * App Component
- * Version 5.5.0 - Dynamic Representative Detection
+ * Version 5.6.0 - Added todobrasil.jpeg and "Após se cadastrar" caption with Dynamic Representatives.
  */
 const App: React.FC = () => {
   const [userName, setUserName] = useState('');
   const [representante, setRepresentante] = useState<Representante>(REPRESENTANTE_PADRAO);
 
   // Rebuild trigger for total cache invalidation
-  const _forceRebuild = "v5.5.0_federalcelular_image_" + Date.now();
+  const _forceRebuild = "v5.6.0_todobrasil_image_" + Date.now();
 
   useEffect(() => {
     // 1. Identifica o ID do representante direto pela URL (ex: "/135302" -> "135302")
