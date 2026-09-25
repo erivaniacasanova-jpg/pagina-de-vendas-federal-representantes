@@ -6,37 +6,25 @@ export interface Representante {
 }
 
 export const REPRESENTANTES: Record<string, Representante> = {
-  "francisco": {
+  "110956": {
     id: "110956",
     nome: "Francisco Eliedisom Dos Santos",
     whatsapp: "5584981321396",
-    linkCadastro: "https://associarse.com.br/" // ou https://associarse.com.br
+    linkCadastro: "https://associarse.com.br/110956"
   },
-  "william": {
-    id: "134684",
-    nome: "William Dos Santos Pessoa",
-    whatsapp: "5521969400194",
-    linkCadastro: "https://associarse.com.br/134684"
-  },
-  "erivania": {
+  "135302": {
     id: "135302",
     nome: "Antonia Erivania Delmiro Jacinto",
     whatsapp: "558498410187",
     linkCadastro: "https://associarse.com.br/135302"
   },
-  "aline": {
-    id: "153542",
-    nome: "Aline Aparecida Melo",
-    whatsapp: "553193371195",
-    linkCadastro: "https://associarse.com.br/153542"
-  },
-  "gilmar": {
+  "191651": {
     id: "191651",
     nome: "Gilmar Goncalves De Paula",
     whatsapp: "5522998914547",
     linkCadastro: "https://associarse.com.br/191651"
   },
-  "wagner": {
+  "88389": {
     id: "88389",
     nome: "Wagner Cruz Vieira",
     whatsapp: "5521996098857",
@@ -44,5 +32,5 @@ export const REPRESENTANTES: Record<string, Representante> = {
   }
 }
 
-// Define o representante padrão que aparece quando acessam a raiz (suanetturbinada.com.br)
-export const REPRESENTANTE_PADRAO: Representante = REPRESENTANTES["francisco"];
+// Define o representante padrão que aparece quando acessam a raiz do site (ex: /)
+export const REPRESENTANTE_PADRAO: Representante = REPRESENTANTES["110956"];
