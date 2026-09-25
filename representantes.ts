@@ -23,9 +23,8 @@ export const REPRESENTANTES: Record<string, Representante> = {
     nome: "Gilmar Goncalves De Paula",
     whatsapp: "5522998914547",
     linkCadastro: "https://associarse.com.br/191651"
-  },
   }
-}
+};
 
 // Define o representante padrão que aparece quando acessam a raiz do site (ex: /)
 export const REPRESENTANTE_PADRAO: Representante = REPRESENTANTES["110956"];
