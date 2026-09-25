@@ -4,17 +4,17 @@ import { REPRESENTANTES, REPRESENTANTE_PADRAO, Representante } from './represent
 
 /**
  * App Component
- * Version 5.6.0 - Added todobrasil.jpeg and "Após se cadastrar" caption with Dynamic Representatives.
+ * Version 5.7.0 - Updated to support ID-based routing.
  */
 const App: React.FC = () => {
   const [userName, setUserName] = useState('');
   const [representante, setRepresentante] = useState<Representante>(REPRESENTANTE_PADRAO);
 
   // Rebuild trigger for total cache invalidation
-  const _forceRebuild = "v5.6.0_todobrasil_image_" + Date.now();
+  const _forceRebuild = "v5.7.0_id_routing_" + Date.now();
 
   useEffect(() => {
-    // 1. Identifica o nome do representante direto pela URL (converte para minúsculo e remove barras extras)
+    // 1. Identifica o ID do representante direto pela URL (remove barras extras e espaços)
     const pathName = window.location.pathname.replace(/^\/+/g, '').toLowerCase().trim();
 
     if (pathName && REPRESENTANTES[pathName]) {
